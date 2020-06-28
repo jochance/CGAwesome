@@ -1,0 +1,18 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "CGAwesome Resource Pack",
+        "name": "CGAwesome Resource Pack",
+        "uuid": "6ceb7751-2846-4644-9fbe-3436ffe98c3e",
+        "version": [ 1, 0, 5 ],
+        "min_engine_version": [ 1, 14, 0 ]
+    },
+    "modules": [
+        {
+            "description": "CGAwesome Resource Pack",
+            "type": "resources",
+            "uuid": "41a0dff2-429c-4656-964e-3ac334bd99d7",
+            "version": [ 1, 0, 5 ]
+        }
+    ]
+}

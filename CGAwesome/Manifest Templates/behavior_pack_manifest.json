@@ -1,0 +1,18 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "CGAwesome",
+        "name": "CGAwesome",
+        "uuid": "416ed2c2-16c2-49b4-bf59-bb8b451e31a1",
+        "version": [ 1, 0, 6 ],
+        "min_engine_version": [ 1, 14, 0 ]
+    },
+    "modules": [
+        {
+            "description": "CGAwesome",
+            "version": [ 1, 0, 6 ],
+            "uuid": "dff57636-4c87-4280-be4b-b31ffe5acda0",
+            "type": "data"
+        }
+    ]
+}
