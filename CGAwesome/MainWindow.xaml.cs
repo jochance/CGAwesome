@@ -69,7 +69,7 @@ namespace CGAwesome
             Cleanup(packRoot, packName, functionName);
 
             var fillBlockDictionary = MinecraftColorConvert.GetColorToMinecraftBlockDictionary(optionFillBlock.Text, (bool)optionTransparencyMask.IsChecked, (bool)optionJava.IsChecked, optionTransparencyBlock.Text);
-            var fillCommands = GetFillCommandsFromImage(CurrentImage, fillBlockDictionary);
+            var fillCommands = GetFillCommandsFromImage(CurrentImage, fillBlockDictionary, GetOrientationFromOptionGroup());
 
             ExportPackage(fillCommands, packName, functionName, optionNewVersion.Text, packRoot);
 
@@ -83,7 +83,7 @@ namespace CGAwesome
             }
         }
 
-        private StringBuilder GetFillCommandsFromImage(Bitmap currentImage, Dictionary<Color, string> fillBlockDictionary)
+        private StringBuilder GetFillCommandsFromImage(Bitmap currentImage, Dictionary<Color, string> fillBlockDictionary, Orientation blockOrientation)
         {
             currentImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
@@ -106,7 +106,18 @@ namespace CGAwesome
                         if (currentImage.GetPixel(y, x2) != color) break;
                     }
 
-                    fillCommands.Append($"fill ~0~{x}~{y}~0~{colorEndX}~{y} {fillBlockDictionary[color]}{Environment.NewLine}");
+                    switch (blockOrientation)
+                    {
+                        case Orientation.EastWest:
+                            fillCommands.Append($"fill ~{y}~{x}~0~{y}~{colorEndX}~0 {fillBlockDictionary[color]}{Environment.NewLine}");
+                            break;
+                        case Orientation.NorthSouth:
+                            fillCommands.Append($"fill ~0~{x}~{y}~0~{colorEndX}~{y} {fillBlockDictionary[color]}{Environment.NewLine}");
+                            break;
+                        case Orientation.FloorCeiling:
+                            fillCommands.Append($"fill ~{x}~0~{y}~{colorEndX}~0~{y} {fillBlockDictionary[color]}{Environment.NewLine}");
+                            break;
+                    }
 
                     x = (colorEndX == currentImage.Width - 1) ? x : colorEndX - 1;
                 }
@@ -366,6 +377,15 @@ namespace CGAwesome
             }
 
             return redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
+        }
+
+        public Orientation GetOrientationFromOptionGroup()
+        {
+            if ((bool)optionNorthSouth.IsChecked) return Orientation.NorthSouth;
+            if ((bool)optionEastWest.IsChecked) return Orientation.EastWest;
+            if ((bool)optionFloorCeiling.IsChecked) return Orientation.FloorCeiling;
+
+            return Orientation.NorthSouth;
         }
     }
 }
