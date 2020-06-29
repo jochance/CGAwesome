@@ -34,14 +34,14 @@ namespace CGAwesome
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            openFileDialog.Filter = "BMP Files|*.bmp";
+            openFileDialog.Filter = "Image files (*.bmp,*.jpg, *.jpeg, *.gif, *.png, *.tiff) | *.bmp; *.jpg; *.jpeg; *.gif; *.png; *.tiff;";
 
             openFileDialog.ShowDialog(this);
 
             FileInfo sourceFile = new FileInfo(openFileDialog.FileName);
 
             CurrentImage = new Bitmap(new Bitmap(openFileDialog.FileName), int.Parse(txtX.Text), int.Parse(txtY.Text));
-            CurrentImage = ProcessToPalette(CurrentImage, MinecraftColorConvert.COLOR_PALETTE, (bool)optionTransparencyMask.IsChecked);
+            CurrentImage = ProcessToPalette(CurrentImage, (bool)optionTransparencyMask.IsChecked);
 
             displayedImage.Source = null;
                 
@@ -69,7 +69,7 @@ namespace CGAwesome
             Cleanup(packRoot, packName, functionName);
 
             var fillBlockDictionary = MinecraftColorConvert.GetColorToMinecraftBlockDictionary(optionFillBlock.Text, (bool)optionTransparencyMask.IsChecked, (bool)optionJava.IsChecked, optionTransparencyBlock.Text);
-            var fillCommands = GetFillCommandsFromImage(CurrentImage, fillBlockDictionary);
+            var fillCommands = GetFillCommandsFromImage(CurrentImage, fillBlockDictionary, GetOrientationFromOptionGroup());
 
             ExportPackage(fillCommands, packName, functionName, optionNewVersion.Text, packRoot);
 
@@ -83,7 +83,7 @@ namespace CGAwesome
             }
         }
 
-        private StringBuilder GetFillCommandsFromImage(Bitmap currentImage, Dictionary<Color, string> fillBlockDictionary)
+        private StringBuilder GetFillCommandsFromImage(Bitmap currentImage, Dictionary<Color, string> fillBlockDictionary, Orientation blockOrientation)
         {
             currentImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
@@ -106,7 +106,18 @@ namespace CGAwesome
                         if (currentImage.GetPixel(y, x2) != color) break;
                     }
 
-                    fillCommands.Append($"fill ~0~{x}~{y}~0~{colorEndX}~{y} {fillBlockDictionary[color]}{Environment.NewLine}");
+                    switch (blockOrientation)
+                    {
+                        case Orientation.EastWest:
+                            fillCommands.Append($"fill ~{y}~{x}~0~{y}~{colorEndX}~0 {fillBlockDictionary[color]}{Environment.NewLine}");
+                            break;
+                        case Orientation.NorthSouth:
+                            fillCommands.Append($"fill ~0~{x}~{y}~0~{colorEndX}~{y} {fillBlockDictionary[color]}{Environment.NewLine}");
+                            break;
+                        case Orientation.FloorCeiling:
+                            fillCommands.Append($"fill ~{x}~0~{y}~{colorEndX}~0~{y} {fillBlockDictionary[color]}{Environment.NewLine}");
+                            break;
+                    }
 
                     x = (colorEndX == currentImage.Width - 1) ? x : colorEndX - 1;
                 }
@@ -130,7 +141,7 @@ namespace CGAwesome
             }
         }
 
-        public Bitmap ProcessToPalette(Bitmap bitmap, Dictionary<Color, MinecraftColorIndex> palette, bool transparencyFill, bool blackReplace = false)
+        public Bitmap ProcessToPalette(Bitmap bitmap, bool transparencyFill, bool blackReplace = false)
         {
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
@@ -139,24 +150,16 @@ namespace CGAwesome
             HashSet<Color> colorSet = new HashSet<Color>();
             StringBuilder bld = new StringBuilder();
 
-            var DEFAULT = palette.Keys.First();
-            var CLEAR = Color.FromArgb(25, 0, 0, 0);
-
-            if (transparencyFill)
+            if (!transparencyFill)
             {
-                colorSet.Add(DEFAULT);
-                colorSet.Add(CLEAR);
-            }
-            else
-            {
-                foreach (var key in palette.Keys) colorSet.Add(key);
+                foreach (var key in MinecraftColorConvert.COLOR_PALETTE.Keys) colorSet.Add(key);
             }
 
             for (int x = 0; x < bitmap.Width; x++)
             {
                 for (int y = bitmap.Height - 1; y >=0; y--)
                 {
-                    Color nearest = DEFAULT;
+                    Color nearest = MinecraftColorConvert.BLACK;
                     Color secondNearestColor = nearest;
 
                     int min = 500000000;
@@ -195,13 +198,13 @@ namespace CGAwesome
                     {
                         Color c = bitmap.GetPixel(x, y);
 
-                        if (c.A < 25)
+                        if (c.A < 100 || GetDistance(c, MinecraftColorConvert.BLACK) > GetDistance(c, MinecraftColorConvert.WHITE))
                         {
-                            newBitmap.SetPixel(x, y, nearest);
+                            newBitmap.SetPixel(x, y, MinecraftColorConvert.WHITE);
                         }
                         else
                         {
-                            newBitmap.SetPixel(x, y, nearest);
+                            newBitmap.SetPixel(x, y, MinecraftColorConvert.BLACK);
                         }
                     }
                 }
@@ -355,7 +358,7 @@ namespace CGAwesome
             return newDictionary;
         }
 
-        public static int GetDistance(Color current, Color match, bool useAlpha)
+        public static int GetDistance(Color current, Color match, bool useAlpha = false)
         {
             int redDifference;
             int greenDifference;
@@ -366,14 +369,23 @@ namespace CGAwesome
             greenDifference = current.G - match.G; //we see green better?
             blueDifference = current.B - match.B;
 
-            //if (useAlpha)
-            //{
-            //    alphaDifference = current.A - match.A;
+            if (useAlpha)
+            {
+                alphaDifference = current.A - match.A;
 
-            //    return alphaDifference * alphaDifference + redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
-            //}
+                return alphaDifference * alphaDifference + redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
+            }
 
             return redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
+        }
+
+        public Orientation GetOrientationFromOptionGroup()
+        {
+            if ((bool)optionNorthSouth.IsChecked) return Orientation.NorthSouth;
+            if ((bool)optionEastWest.IsChecked) return Orientation.EastWest;
+            if ((bool)optionFloorCeiling.IsChecked) return Orientation.FloorCeiling;
+
+            return Orientation.NorthSouth;
         }
     }
 }

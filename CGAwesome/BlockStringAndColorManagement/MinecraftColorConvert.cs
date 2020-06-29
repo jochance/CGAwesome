@@ -12,6 +12,9 @@ namespace CGAwesome.MinecraftColor
 
     public static class MinecraftColorConvert
     {
+        public static Color BLACK = Color.FromArgb(255, 25, 25, 25);
+        public static Color WHITE = Color.FromArgb(255, 255, 255, 255);
+
         public static ColorToMinecraftColorIndex COLOR_PALETTE = new ColorToMinecraftColorIndex()
         {
             {Color.FromArgb(255, 25, 25, 25),MinecraftColorIndex.black},
@@ -38,7 +41,7 @@ namespace CGAwesome.MinecraftColor
             var d = new ColorToMinecraftBlockDictionary();
             var jsPrefixString = jsPrefix ? "minecraft:" : "";
 
-            if (forTransparency) return new Dictionary<Color, string>() { { Color.FromArgb(25, 0, 0, 0), transparencyBlockName }, { Color.FromArgb(255,125,125,125), blockName } };
+            if (forTransparency) return new Dictionary<Color, string>() { { WHITE, transparencyBlockName }, { BLACK, blockName } };
 
             if (Enum.GetNames(typeof(ColorIndexedBlocks)).Any(e => e == blockName))
             {
