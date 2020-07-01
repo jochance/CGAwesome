@@ -5,68 +5,153 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BitmapToFill"
         mc:Ignorable="d"
-        Title="CGAwesome Fill Command Utility" Height="718" Width="779" ResizeMode="NoResize" ToolTip="Click Select Image to choose an image - Click Export to create .mcpack - Import the .mcpack to Minecraft - Enable the behavior pack for your world - Run '/function CGAwesome' in console - Read Tooltips to ease pain - ENJOY!">
-    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,-19" Height="731">
-        <StackPanel Margin="10,10,10,36">
-            <Grid Width="508" Height="121">
-                <StackPanel Margin="0,0,338,0">
-                    <Label FontWeight="Bold" FontSize="18" Content="Pack Name" HorizontalAlignment="Left" Width="154" />
-                    <TextBox x:Name="optionPackName"  FontSize="18" Text="CGAwesome" FontWeight="Bold" Foreground="Red" TextAlignment="Left" ToolTip="THIS WILL BE BOTH THE NAME OF THE EXPORTED .MCPACK FILE AND THE NAME OF THE BEHAVIOR PACKAGE YOU NEED TO DISTRIBUTE/ENABLE IN MINECRAFT" />
-                    <Label FontWeight="Bold" FontSize="18" Content="Version" HorizontalAlignment="Left" Width="154"/>
-                    <TextBox x:Name="optionNewVersion"  FontSize="18" Text="1, 0, 6" FontWeight="Bold" Foreground="Red" TextAlignment="Left" ToolTip="THIS WILL BE BOTH THE NAME OF THE EXPORTED .MCPACK FILE AND THE NAME OF THE BEHAVIOR PACKAGE YOU NEED TO DISTRIBUTE/ENABLE IN MINECRAFT" />
-                </StackPanel>
-                <Button x:Name="btnChoosePack" Content="Select Pack" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" Width="120" Height="120" ToolTip="ONLY USE THIS TO CHOOSE PACKS ALREADY CREATED WITH CGAWESOME TO ADD A NEW FUNCTION TO THEM OR TO OVERWRITE AN EXISTING FUNCTION IF FUNCTION NAMES MATCH. ***IF YOU USE THIS FOR PACKS NOT CREATED BY CGAWESOME IT WILL PROBABLY BREAK THEM AND MAY ALSO BREAK WORLDS THAT USE THEM.***"/>
-                <Button x:Name="btnLoadImage" HorizontalAlignment="Right" Content="Select Image" Width="120" Height="120" FontSize="18" FontWeight="Bold" Click="BtnLoadImage_Click"/>
-            </Grid>
-            <Border DockPanel.Dock="Left" Margin="10,10,10,10" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="512" VerticalAlignment="Top" Width="512">
-                <Image x:Name="displayedImage" Stretch="Fill" />
-            </Border>
-        </StackPanel>
-        <StackPanel Margin="0,0,0,36">
-            <DockPanel HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="10,10,10,10">
-                <StackPanel DockPanel.Dock="Left" Height="406">
-                    <Grid Height="119" Width="177">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="8*"/>
-                            <ColumnDefinition Width="51*"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Margin="0,0,0,49" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                            <Label DockPanel.Dock="Left" Content="X" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                            <Label DockPanel.Dock="Left" Content="Y" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        </StackPanel>
-                        <StackPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
-                            <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="txtX" Height="23" Width="145" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                            <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="txtY" Height="23" Width="145" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>
-                    <Border Margin="0,12,0,0" BorderBrush="Black" BorderThickness="2" ToolTip="ORIENTATION OF GENERATED STRUCTURE - WHICH PLANE SHOULD THE WALL/WINDOW FOLLOW? - Z, X, OR Y?">
-                        <StackPanel>
-                            <RadioButton x:Name="optionNorthSouth" Margin="5,5,5,5" Content="North/South" FontWeight="Bold" IsChecked="True" />
-                            <RadioButton x:Name="optionEastWest" Margin="5,5,5,5" Content="East/West" FontWeight="Bold" IsChecked="False"/>
-                            <RadioButton x:Name="optionFloorCeiling" Margin="5,5,5,5" Content="Floor/Ceiling" FontWeight="Bold" IsChecked="False"/>
-                        </StackPanel>
-                    </Border>
-                    <Border Margin="0,10,0,0" BorderBrush="Black" BorderThickness="2">
-                        <StackPanel>
-                            <CheckBox x:Name="optionTransparencyMask" Content="Transparency Fill" FontWeight="Bold" ToolTip="THIS CREATES A FUNCTION THAT USES THE IMAGE TO FILL WITH ONLY TWO BLOCK TYPES (INSTEAD OF TRYING TO MATCH COLORS). SELECTED IMAGE SHOULD HAVE TRANSPARENCY AND TRANSPARENT PIXELS SHOULD HAVE ALPHA VALUE LESS THAN 25" Margin="5,5,5,5" IsChecked="False"/>
-                            <TextBox x:Name="optionTransparencyBlock" TextAlignment="Center" Foreground="Red" Text="glass" FontSize="16" FontWeight="Bold" Height="30" ToolTip="MINECRAFT BLOCK NAME TO USE IN FILL COMMAND - YOU CAN USE COLOR VALUES WITH SOME BLOCK TYPES - USE OF SOME BLOCK TYPES WILL LIKELY BREAK THINGS (shulker)! - Ex. stone, concrete, air, glass_panel, etc (MUST BE PRECISE MATCH!)"/>
-                        </StackPanel>
-                    </Border>
-                    <Label Content="Fill Block" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="optionFillBlock" TextAlignment="Center" Text="stained_glass" Foreground="Red" FontWeight="Bold" FontSize="18" Height="30" ToolTip="MINECRAFT BLOCK NAME TO USE IN FILL COMMAND. IF USING TRANSPARENCY FILL, CAN BE ANY BLOCK. IF NOT, THIS SHOULD PROBABLY BE 'concrete' or 'stained_glass' IT MUST BE A BLOCK THAT ACCEPTS COLOR VALUES WITH /FILL ~0~0~0~0~0~0 blockType colorData - WHEN I ATTEMPTED 100x100 SHULKER BOXES USING THIS (RTX BETA), MY GPU FLAKED OUT UNTIL REBOOT, SO USE OF CERTAIN BLOCK TYPES WILL LIKELY BREAK THINGS! (MUST BE PRECISE NAME MATCH! SHOULD WORK FOR MODDED/MOD-ADDED BLOCKS WITH TRANSPARENCY FILL OPTION ESPECIALLY)" Width="169"/>
-                    <Label FontWeight="Bold" Content="Fill Function Name" HorizontalAlignment="Center"/>
-                    <TextBox x:Name="optionFunctionName" TextAlignment="Center" Foreground="Red" FontWeight="Bold" VerticalAlignment="Top" Text="CGAwesome" ToolTip="THIS MUST NOT MATCH ANY OTHER FUNCTION NAMES IN THE MINECRAFT INSTALL! THIS WILL BE THE NAME OF THE FUNCTION YOU RUN IN MINECRAFT CONSOLE TO CREATE YOUR CGAWESOME STRUCTURE."/>
-                </StackPanel>
-            </DockPanel>
-            <DockPanel>
-                <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="76" Width="180">
-                    <StackPanel Margin="10,10,10,10">
-                        <RadioButton Margin="10,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" x:Name="optionBedrock" IsChecked="True" Content="Bedrock" FontWeight="Bold" FontSize="18" Height="27" />
-                        <RadioButton Margin="10,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" x:Name="optionJava" Content="Java" FontWeight="Bold" FontSize="18" />
+        Title="CGAwesome Fill Command Utility" Height="752" Width="784" ResizeMode="NoResize" ToolTip="Click Select Image to choose an image - Click Export to create .mcpack - Import the .mcpack to Minecraft - Enable the behavior pack for your world - Run '/function CGAwesome' in console - Read Tooltips to ease pain - ENJOY!">
+    <TabControl x:Name="tabControl" VerticalAlignment="Top" Margin="10,10,10,10" FontSize="18"> 
+        <TabItem Header="Single Image" Background="#FFE5E5E5" >
+            <Grid Background="#FFE5E5E5" Height="701">
+                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,10">
+                    <StackPanel Margin="10,10,10,36">
+                        <Grid Width="508" Height="121">
+                            <StackPanel Margin="0,0,338,0">
+                                <Label FontWeight="Bold" FontSize="18" Content="Pack Name" HorizontalAlignment="Left" Width="154" />
+                                <TextBox x:Name="optionPackName"  FontSize="18" Text="CGAwesome" FontWeight="Bold" Foreground="Red" TextAlignment="Left" ToolTip="THIS WILL BE BOTH THE NAME OF THE EXPORTED .MCPACK FILE AND THE NAME OF THE BEHAVIOR PACKAGE YOU NEED TO DISTRIBUTE/ENABLE IN MINECRAFT" />
+                                <Label FontWeight="Bold" FontSize="18" Content="Version" HorizontalAlignment="Left" Width="154"/>
+                                <TextBox x:Name="optionNewVersion"  FontSize="18" Text="1, 0, 6" FontWeight="Bold" Foreground="Red" TextAlignment="Left" ToolTip="THIS WILL BE BOTH THE NAME OF THE EXPORTED .MCPACK FILE AND THE NAME OF THE BEHAVIOR PACKAGE YOU NEED TO DISTRIBUTE/ENABLE IN MINECRAFT" />
+                            </StackPanel>
+                            <Button x:Name="btnChoosePack" Content="Select Pack" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18" Width="120" Height="120" ToolTip="ONLY USE THIS TO CHOOSE PACKS ALREADY CREATED WITH CGAWESOME TO ADD A NEW FUNCTION TO THEM OR TO OVERWRITE AN EXISTING FUNCTION IF FUNCTION NAMES MATCH. ***IF YOU USE THIS FOR PACKS NOT CREATED BY CGAWESOME IT WILL PROBABLY BREAK THEM AND MAY ALSO BREAK WORLDS THAT USE THEM.***"/>
+                            <Button Margin="0,0,10,0" x:Name="btnLoadImage" HorizontalAlignment="Right" Content="Select Image" Width="120" Height="120" FontSize="18" FontWeight="Bold" Click="BtnLoadImage_Click"/>
+                        </Grid>
+                        <Border Margin="0,10,0,0" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Width="500" Height="500">
+                            <Image x:Name="displayedImage" Stretch="Fill" />
+                        </Border>
                     </StackPanel>
-                </Border>
-            </DockPanel>
-            <Button Margin="0,75,0,0" x:Name="btnGenerateFillCommands" Content="Export Pack" Height="72" FontSize="18" Width="180" FontWeight="Bold" Click="BtnGenerateFillCommands_Click"/>
-        </StackPanel>
-    </DockPanel>
+                    <StackPanel Margin="0,0,0,36">
+                        <DockPanel HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="10,10,10,10">
+                            <StackPanel Height="447">
+                                <Grid Height="119" Width="177">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="51*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Margin="0,0,0,49" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                                        <Label Content="X" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                        <Label Content="Y" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
+                                        <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="txtX" Height="23" Width="145" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="txtY" Height="23" Width="145" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+                                <Border Margin="0,12,0,0" BorderBrush="Black" BorderThickness="2" ToolTip="ORIENTATION OF GENERATED STRUCTURE - WHICH PLANE SHOULD THE WALL/WINDOW FOLLOW? - Z, X, OR Y?">
+                                    <StackPanel>
+                                        <RadioButton x:Name="optionNorthSouth" Margin="5,5,5,5" Content="North/South" FontWeight="Bold" IsChecked="True" />
+                                        <RadioButton x:Name="optionEastWest" Margin="5,5,5,5" Content="East/West" FontWeight="Bold" IsChecked="False"/>
+                                        <RadioButton x:Name="optionFloorCeiling" Margin="5,5,5,5" Content="Floor/Ceiling" FontWeight="Bold" IsChecked="False"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Margin="0,10,0,0" BorderBrush="Black" BorderThickness="2">
+                                    <StackPanel>
+                                        <CheckBox x:Name="optionTransparencyMask" Content="Transparency Fill" FontWeight="Bold" ToolTip="THIS CREATES A FUNCTION THAT USES THE IMAGE TO FILL WITH ONLY TWO BLOCK TYPES (INSTEAD OF TRYING TO MATCH COLORS). SELECTED IMAGE SHOULD HAVE TRANSPARENCY AND TRANSPARENT PIXELS SHOULD HAVE ALPHA VALUE LESS THAN 25" Margin="5,5,5,5" IsChecked="False" Checked="OptionTransparencyMask_Checked" Unchecked="OptionTransparencyMask_Checked" />
+                                        <TextBox x:Name="optionTransparencyBlock" TextAlignment="Center" Foreground="Red" Text="glass" FontSize="16" FontWeight="Bold" Height="30" ToolTip="MINECRAFT BLOCK NAME TO USE IN FILL COMMAND - YOU CAN USE COLOR VALUES WITH SOME BLOCK TYPES - USE OF SOME BLOCK TYPES WILL LIKELY BREAK THINGS (shulker)! - Ex. stone, concrete, air, glass_panel, etc (MUST BE PRECISE MATCH!)" IsEnabled="False" />
+                                        <Label Content="Fill Block" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                        <TextBox x:Name="optionFillBlock" TextAlignment="Center" Text="stained_glass" Foreground="Red" FontWeight="Bold" FontSize="18" Height="30" ToolTip="MINECRAFT BLOCK NAME TO USE IN FILL COMMAND. IF USING TRANSPARENCY FILL, CAN BE ANY BLOCK. IF NOT, THIS SHOULD PROBABLY BE 'concrete' or 'stained_glass' IT MUST BE A BLOCK THAT ACCEPTS COLOR VALUES WITH /FILL ~0~0~0~0~0~0 blockType colorData - WHEN I ATTEMPTED 100x100 SHULKER BOXES USING THIS (RTX BETA), MY GPU FLAKED OUT UNTIL REBOOT, SO USE OF CERTAIN BLOCK TYPES WILL LIKELY BREAK THINGS! (MUST BE PRECISE NAME MATCH! SHOULD WORK FOR MODDED/MOD-ADDED BLOCKS WITH TRANSPARENCY FILL OPTION ESPECIALLY)" Width="169"/>
+                                        <Label Margin="0,5,0,0" FontWeight="Bold" Content="Fill Function Name" HorizontalAlignment="Center"/>
+                                        <TextBox x:Name="optionFunctionName" TextAlignment="Center" Foreground="Red" FontSize="18" FontWeight="Bold" VerticalAlignment="Top" Text="CGAwesome" ToolTip="THIS MUST NOT MATCH ANY OTHER FUNCTION NAMES IN THE MINECRAFT INSTALL! THIS WILL BE THE NAME OF THE FUNCTION YOU RUN IN MINECRAFT CONSOLE TO CREATE YOUR CGAWESOME STRUCTURE."/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </DockPanel>
+                        <DockPanel>
+                            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="76" Width="180">
+                                <StackPanel Margin="10,10,10,10">
+                                    <RadioButton Margin="10,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" x:Name="optionBedrock" IsChecked="True" Content="Bedrock" FontWeight="Bold" FontSize="18" Height="27" />
+                                    <RadioButton Margin="10,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Bottom" x:Name="optionJava" Content="Java" FontWeight="Bold" FontSize="18" />
+                                </StackPanel>
+                            </Border>
+                        </DockPanel>
+                        <Button Margin="0,25,0,0" x:Name="btnGenerateFillCommands" Content="Export Pack" Height="72" FontSize="18" Width="180" FontWeight="Bold" Click="BtnGenerateFillCommands_Click"/>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Showcase" Background="#FFE5E5E5" FontWeight="Bold" FontSize="18">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="20,20,0,20" Orientation="Vertical" HorizontalAlignment="Left">
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="40,20,20,20" Orientation="Vertical">
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <Image Height="100" Width="100"></Image>
+                            </Border>
+                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="10,16,0,0" Orientation="Vertical" HorizontalAlignment="Right">
+                        <Label Margin="10,0,0,0" Content="X" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right"/>
+                        <Label Margin="10,10,0,0" Content="Y" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,20,0,0" Orientation="Vertical">
+                        <TextBox Margin="10,0,0,0" Width="100" Height="30" Text="100" HorizontalContentAlignment="Right" />
+                        <TextBox Margin="10,10,0,0" Width="100" Height="30" Text="100" HorizontalContentAlignment="Right"/>
+                    </StackPanel>
+                    <Border Margin="100,5" Width="195" BorderBrush="Black" BorderThickness="2">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <RadioButton Margin="5" Content="Massive Museum" VerticalContentAlignment="Center"/>
+                                <RadioButton Margin="5" Content="Large Longhouse" VerticalContentAlignment="Center"/>
+                                <RadioButton Margin="5" Content="Stately Studio" VerticalContentAlignment="Center" IsChecked="True"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <Button Margin="20" Content="Generate Showcase" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <ProgressBar Margin="20" Height="30"/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
 </Window>

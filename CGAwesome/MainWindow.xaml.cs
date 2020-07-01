@@ -318,6 +318,8 @@ namespace CGAwesome
 
         private static Dictionary<Color, List<Point>> CompressBlockDictionary(Dictionary<Color, List<Point>> dictionary)
         {
+            
+
             var newDictionary = new Dictionary<Color, List<Point>>();
 
             foreach(Color c in dictionary.Keys)
@@ -386,6 +388,16 @@ namespace CGAwesome
             if ((bool)optionFloorCeiling.IsChecked) return Orientation.FloorCeiling;
 
             return Orientation.NorthSouth;
+        }
+
+        private void OptionTransparencyMask_Checked(object sender, RoutedEventArgs e)
+        {
+            optionTransparencyBlock.IsEnabled = (bool)optionTransparencyMask.IsChecked;
+        }
+
+        private void Button_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
