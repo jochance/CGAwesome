@@ -22,7 +22,7 @@
                             <Button Margin="0,0,10,0" x:Name="btnLoadImage" HorizontalAlignment="Right" Content="Select Image" Width="120" Height="120" FontSize="18" FontWeight="Bold" Click="BtnLoadImage_Click"/>
                         </Grid>
                         <Border Margin="0,10,0,0" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Width="500" Height="500">
-                            <Image x:Name="displayedImage" Stretch="Fill" />
+                            <Image x:Name="MainImage" Stretch="Fill" />
                         </Border>
                     </StackPanel>
                     <StackPanel Margin="0,0,0,36">
@@ -33,13 +33,13 @@
                                         <ColumnDefinition Width="8*"/>
                                         <ColumnDefinition Width="51*"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Margin="0,0,0,49" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                                        <Label Content="X" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                        <Label Content="Y" FontSize="18" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <StackPanel Margin="0,0,120,49" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                                        <Label Content="X" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                        <Label Content="Y" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                                     </StackPanel>
                                     <StackPanel Grid.RowSpan="2" Grid.ColumnSpan="2">
-                                        <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="txtX" Height="23" Width="145" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                        <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="txtY" Height="23" Width="145" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="singleScaleX" Height="23" Width="100" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <TextBox DockPanel.Dock="Right" Text="100" Margin="5,5,10,5" x:Name="singleScaleY" Height="23" Width="100" FontSize="18" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
                                 <Border Margin="0,12,0,0" BorderBrush="Black" BorderThickness="2" ToolTip="ORIENTATION OF GENERATED STRUCTURE - WHICH PLANE SHOULD THE WALL/WINDOW FOLLOW? - Z, X, OR Y?">
@@ -80,53 +80,53 @@
                     <StackPanel Margin="20,20,0,20" Orientation="Vertical" HorizontalAlignment="Left">
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image1" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage1" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage1_Click"/>
                         </StackPanel>
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image2" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage2" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage2_Click"/>
                         </StackPanel>
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image3" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage3" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage3_Click"/>
                         </StackPanel>
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image4" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage4" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage4_Click"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Margin="40,20,20,20" Orientation="Vertical">
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image5" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage5" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage5_Click"/>
                         </StackPanel>
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image6" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage6" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage6_Click"/>
                         </StackPanel>
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image7" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage7" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage7_Click"/>
                         </StackPanel>
                         <StackPanel Margin="20,10,0,0" Orientation="Horizontal">
                             <Border BorderBrush="Black" BorderThickness="2">
-                                <Image Height="100" Width="100"></Image>
+                                <Image x:Name="Image8" Height="100" Width="100"></Image>
                             </Border>
-                            <Button Margin="20" Content="Choose Image" Height="50" Width="150"/>
+                            <Button x:Name="ChooseImage8" Margin="20" Content="Choose Image" Height="50" Width="150" Click="ChooseImage8_Click"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
@@ -136,19 +136,19 @@
                         <Label Margin="10,10,0,0" Content="Y" FontSize="18" FontWeight="Bold" HorizontalAlignment="Right"/>
                     </StackPanel>
                     <StackPanel Margin="5,20,0,0" Orientation="Vertical">
-                        <TextBox Margin="10,0,0,0" Width="100" Height="30" Text="100" HorizontalContentAlignment="Right" />
-                        <TextBox Margin="10,10,0,0" Width="100" Height="30" Text="100" HorizontalContentAlignment="Right"/>
+                        <TextBox x:Name="showcaseScaleX" Margin="10,0,0,0" Width="100" Height="30" Text="100" HorizontalContentAlignment="Right" />
+                        <TextBox x:Name="showcaseScaleY" Margin="10,10,0,0" Width="100" Height="30" Text="100" HorizontalContentAlignment="Right"/>
                     </StackPanel>
                     <Border Margin="100,5" Width="195" BorderBrush="Black" BorderThickness="2">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical">
-                                <RadioButton Margin="5" Content="Massive Museum" VerticalContentAlignment="Center"/>
-                                <RadioButton Margin="5" Content="Large Longhouse" VerticalContentAlignment="Center"/>
+                            <StackPanel x:Name="ShowcaseType" Orientation="Vertical">
+                                <RadioButton Margin="5" Content="Massive Museum" VerticalContentAlignment="Center" IsChecked="False"/>
+                                <RadioButton Margin="5" Content="Large Longhouse" VerticalContentAlignment="Center" IsChecked="False"/>
                                 <RadioButton Margin="5" Content="Stately Studio" VerticalContentAlignment="Center" IsChecked="True"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>
-                    <Button Margin="20" Content="Generate Showcase" HorizontalAlignment="Center"/>
+                    <Button Margin="20" Content="Generate Showcase" HorizontalAlignment="Center" Click="GenerateShowcase_Click"/>
                 </StackPanel>
                 <ProgressBar Margin="20" Height="30"/>
             </StackPanel>
