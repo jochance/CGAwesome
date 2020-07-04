@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CGAwesome.Enums;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CGAwesome.Interfaces
 {
     public interface IExportMinecraftPackage
     {
-        void Export(StringBuilder fillCommands, string packageName, string functionName, string newVersion, DirectoryInfo packRoot);
+        ExportPackageType GetPackageType();
+        void ExportFunction(StringBuilder fillCommands, DirectoryInfo packRoot, string functionName);
+        void ExportPackage(DirectoryInfo packRoot, string packageName, string newVersion);
+        void Cleanup(DirectoryInfo packRoot, string packageName, string functionName);
     }
 }

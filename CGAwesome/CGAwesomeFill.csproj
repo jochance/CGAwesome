@@ -90,11 +90,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BlockStringAndColorManagement\Enums\ColorIndexedBlocks.cs" />
-    <Compile Include="BlockStringAndColorManagement\Enums\MinecraftBlockColorScheme.cs" />
-    <Compile Include="BlockStringAndColorManagement\MinecraftColorConvert.cs" />
-    <Compile Include="BlockStringAndColorManagement\Enums\MinecraftColorIndex.cs" />
-    <Compile Include="BlockStringAndColorManagement\Enums\Orientation.cs" />
+    <Compile Include="Enums\ColorIndexedBlocks.cs" />
+    <Compile Include="Enums\ExportPackageType.cs" />
+    <Compile Include="Enums\MinecraftBlockColorScheme.cs" />
+    <Compile Include="ShowcaseGenerators\SingleGenerator.cs" />
+    <Compile Include="ImageMeat\MinecraftColorConvert.cs" />
+    <Compile Include="Enums\MinecraftColorIndex.cs" />
+    <Compile Include="Enums\Orientation.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -103,22 +105,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImageProcessing.cs" />
+    <Compile Include="ImageMeat\ImageProcessing.cs" />
     <Compile Include="Interfaces\IGenerateShowcase.cs" />
     <Compile Include="Interfaces\IExportMinecraftPackage.cs" />
-    <Compile Include="Interfaces\PackageExporters\BedrockExporter.cs" />
-    <Compile Include="Interfaces\PackageExporters\JavaExporter.cs" />
-    <Compile Include="Interfaces\ShowcaseGenerators\LonghouseGenerator.cs" />
-    <Compile Include="Interfaces\ShowcaseGenerators\MuseumGenerator.cs" />
-    <Compile Include="Interfaces\ShowcaseGenerators\ShowcaseGenerator.cs" />
-    <Compile Include="Interfaces\ShowcaseGenerators\StudioGenerator.cs" />
+    <Compile Include="PackageExporters\BedrockExporter.cs" />
+    <Compile Include="PackageExporters\JavaExporter.cs" />
+    <Compile Include="ShowcaseGenerators\LonghouseGenerator.cs" />
+    <Compile Include="ShowcaseGenerators\MuseumGenerator.cs" />
+    <Compile Include="ShowcaseGenerators\ShowcaseGenerator.cs" />
+    <Compile Include="ShowcaseGenerators\StudioGenerator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MinecraftPackageManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

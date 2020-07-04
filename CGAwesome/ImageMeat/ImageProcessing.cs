@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using CGAwesome.Enums;
-using CGAwesome.MinecraftColor;
 
-namespace CGAwesome
+namespace CGAwesome.ImageMeat
 {
     public static class ImageProcessing
     {

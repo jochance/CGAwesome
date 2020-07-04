@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CGAwesome.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace CGAwesome.Interfaces
 {
     public interface IGenerateShowcase
     {
-        void Generate();
+        void Generate(string fillBlock, bool transparency, string transparencyBlockName);
     }
 }
