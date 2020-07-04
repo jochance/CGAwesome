@@ -104,6 +104,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ImageProcessing.cs" />
+    <Compile Include="Interfaces\IGenerateShowcase.cs" />
+    <Compile Include="Interfaces\IExportMinecraftPackage.cs" />
+    <Compile Include="Interfaces\PackageExporters\BedrockExporter.cs" />
+    <Compile Include="Interfaces\PackageExporters\JavaExporter.cs" />
+    <Compile Include="Interfaces\ShowcaseGenerators\LonghouseGenerator.cs" />
+    <Compile Include="Interfaces\ShowcaseGenerators\MuseumGenerator.cs" />
+    <Compile Include="Interfaces\ShowcaseGenerators\ShowcaseGenerator.cs" />
+    <Compile Include="Interfaces\ShowcaseGenerators\StudioGenerator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -143,5 +151,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

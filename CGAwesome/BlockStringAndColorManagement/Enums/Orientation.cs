@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CGAwesome.Enums
+﻿namespace CGAwesome.Enums
 {
     /// <summary>
     /// Z, X, or Y plane (filled points will only vary by the plane not chosen because they all fall on that plane)

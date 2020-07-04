@@ -10,6 +10,9 @@ using CGAwesome.Enums;
 using CGAwesome.MinecraftColor;
 using System.Text;
 using System.Collections.Generic;
+using CGAwesome.ShowcaseGenerators;
+using CGAwesome.Interfaces;
+using CGAwesome.PackageExporters;
 
 namespace CGAwesome
 {
@@ -71,7 +74,7 @@ namespace CGAwesome
             var fillBlockDictionary = MinecraftColorConvert.GetColorToMinecraftBlockDictionary(optionFillBlock.Text, (bool)optionTransparencyMask.IsChecked, (bool)optionJava.IsChecked, optionTransparencyBlock.Text);
             var fillCommands = ImageProcessing.GetFillCommandsFromImage(ProcessedImages[MainImage], fillBlockDictionary, GetOrientationFromOptionGroup());
 
-            MinecraftPackageManagement.ExportPackage(fillCommands, packName, functionName, optionNewVersion.Text, packRoot);
+            MinecraftPackageManagement.ExportBedrockPackage(fillCommands, packName, functionName, optionNewVersion.Text, packRoot);
 
             ZipFile.CreateFromDirectory($"{packRoot.FullName}", $"{packRoot.Parent.FullName}\\{packName}.mcpack");
 
@@ -201,13 +204,27 @@ namespace CGAwesome
 
         private void GenerateShowcase(string showcaseType)
         {
+            IExportMinecraftPackage exporter;
+
+            if ((bool)optionBedrock.IsChecked)
+            {
+                exporter = new BedrockExporter();
+            }
+            else
+            {
+                exporter = new JavaExporter();
+            }
+
             switch (showcaseType)
             {
                 case "Massive Museum":
+                    new MuseumGenerator(exporter, optionPackName.Text, optionNewVersion.Text, optionFunctionName.Text).Generate();
                     break;
                 case "Large Longhouse":
+                    new LonghouseGenerator(exporter, optionPackName.Text, optionNewVersion.Text, optionFunctionName.Text).Generate();
                     break;
                 case "Stately Studio":
+                    new StudioGenerator(exporter, optionPackName.Text, optionNewVersion.Text, optionFunctionName.Text).Generate();
                     break;
             }
         }
