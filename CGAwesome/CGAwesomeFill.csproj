@@ -112,7 +112,7 @@
     <Compile Include="PackageExporters\JavaExporter.cs" />
     <Compile Include="ShowcaseGenerators\LonghouseGenerator.cs" />
     <Compile Include="ShowcaseGenerators\MuseumGenerator.cs" />
-    <Compile Include="ShowcaseGenerators\ShowcaseGenerator.cs" />
+    <Compile Include="ShowcaseGenerators\Abstract\ShowcaseGenerator.cs" />
     <Compile Include="ShowcaseGenerators\StudioGenerator.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -15,7 +15,12 @@ namespace CGAwesome.ShowcaseGenerators
 
         }
 
-        public override void Generate()
+        public override void Export()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Generate(string fillBlock, bool transparency, string transparencyBlockName)
         {
             throw new NotImplementedException();
         }

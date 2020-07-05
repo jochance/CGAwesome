@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.IO;
-using CGAwesome.Enums;
 using System.Collections.Generic;
 using CGAwesome.ShowcaseGenerators;
 using CGAwesome.Interfaces;
 using CGAwesome.PackageExporters;
 using CGAwesome.ImageMeat;
+using System.Windows.Controls;
+using Orientation = CGAwesome.Enums.Orientation;
 
 namespace CGAwesome
 {
@@ -35,17 +36,18 @@ namespace CGAwesome
 
             using (Bitmap sourceImage = new Bitmap(sourceFile.FullName))
             using (Bitmap scaledImage = new Bitmap(sourceImage, scaleWidth, scaleHeight))
-            using (Bitmap processedImage = ImageProcessing.ProcessToPalette(scaledImage, (bool)optionTransparencyMask.IsChecked))
             {
+                Bitmap processedImage = ImageProcessing.ProcessToPalette(scaledImage, (bool)optionTransparencyMask.IsChecked);
+
                 if (imageControl != null)
                 {
-                    if (!ProcessedImages.ContainsKey(Image1))
+                    if (!ProcessedImages.ContainsKey(imageControl))
                     {
-                        ProcessedImages.Add(Image1, processedImage);
+                        ProcessedImages.Add(imageControl, processedImage);
                     }
                     else
                     {
-                        ProcessedImages[Image1] = processedImage;
+                        ProcessedImages[imageControl] = processedImage;
                     }
 
                     SetImageSource(imageControl, sourceFile, processedImage);
@@ -96,25 +98,34 @@ namespace CGAwesome
             switch (showcaseType)
             {
                 case "Massive Museum":
-                    new MuseumGenerator(exporter,
-                                        optionPackName.Text,
-                                        optionNewVersion.Text,
-                                        optionFunctionName.Text)
-                                        .Generate();
+                    //new MuseumGenerator(exporter,
+                    //                    ProcessedImages, 
+                    //                    optionPackName.Text,
+                    //                    optionNewVersion.Text,
+                    //                    optionFunctionName.Text)
+                    //                    .Generate(optionFillBlock.Text,
+                    //                            (bool)optionTransparencyMask.IsChecked,
+                    //                            optionTransparencyBlock.Text);
                     break;
                 case "Large Longhouse":
-                    new LonghouseGenerator(exporter,
-                                           optionPackName.Text,
-                                           optionNewVersion.Text,
-                                           optionFunctionName.Text)
-                                           .Generate();
+                    //new LonghouseGenerator(exporter,
+                    //                       ProcessedImages, 
+                    //                       optionPackName.Text,
+                    //                       optionNewVersion.Text,
+                    //                       optionFunctionName.Text)
+                    //                       .Generate(optionFillBlock.Text,
+                    //                            (bool)optionTransparencyMask.IsChecked,
+                    //                            optionTransparencyBlock.Text);
                     break;
                 case "Stately Studio":
                     new StudioGenerator(exporter,
+                                        ProcessedImages,
                                         optionPackName.Text,
                                         optionNewVersion.Text,
                                         optionFunctionName.Text)
-                                        .Generate();
+                                        .Generate(optionFillBlock.Text,
+                                                (bool)optionTransparencyMask.IsChecked,
+                                                optionTransparencyBlock.Text);
                     break;
                 case "Single":
                     new SingleGenerator(exporter,
@@ -231,5 +242,74 @@ namespace CGAwesome
             ProcessImage(sourceFile, int.Parse(showcaseScaleX.Text), int.Parse(showcaseScaleY.Text), Image8);
         }
         #endregion
+
+        private void ShowcaseType_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton rb = (RadioButton)sender;
+
+            switch (rb.Content.ToString())
+            {
+                case "Massive Museum":
+                    showcaseScaleX.Text = "80";
+                    showcaseScaleY.Text = "80";
+                    Image1.IsEnabled = true;
+                    ChooseImage1.IsEnabled = true;
+                    Image2.IsEnabled = true;
+                    ChooseImage2.IsEnabled = true;
+                    Image3.IsEnabled = true;
+                    ChooseImage3.IsEnabled = true;
+                    Image4.IsEnabled = true;
+                    ChooseImage4.IsEnabled = true;
+                    Image5.IsEnabled = true;
+                    ChooseImage5.IsEnabled = true;
+                    Image6.IsEnabled = true;
+                    ChooseImage6.IsEnabled = true;
+                    Image7.IsEnabled = true;
+                    ChooseImage7.IsEnabled = true;
+                    Image8.IsEnabled = true;
+                    ChooseImage8.IsEnabled = true;
+                    break;
+                case "Large Longhouse":
+                    showcaseScaleX.Text = "65";
+                    showcaseScaleY.Text = "65";
+                    Image1.IsEnabled = true;
+                    ChooseImage1.IsEnabled = true;
+                    Image2.IsEnabled = true;
+                    ChooseImage2.IsEnabled = true;
+                    Image3.IsEnabled = true;
+                    ChooseImage3.IsEnabled = true;
+                    Image4.IsEnabled = true;
+                    ChooseImage4.IsEnabled = true;
+                    Image5.IsEnabled = true;
+                    ChooseImage5.IsEnabled = true;
+                    Image6.IsEnabled = false;
+                    ChooseImage6.IsEnabled = false;
+                    Image7.IsEnabled = false;
+                    ChooseImage7.IsEnabled = false;
+                    Image8.IsEnabled = false;
+                    ChooseImage8.IsEnabled = false;
+                    break;
+                case "Stately Studio":
+                    showcaseScaleX.Text = "50";
+                    showcaseScaleY.Text = "50";
+                    Image1.IsEnabled = true;
+                    ChooseImage1.IsEnabled = true;
+                    Image2.IsEnabled = true;
+                    ChooseImage2.IsEnabled = true;
+                    Image3.IsEnabled = true;
+                    ChooseImage3.IsEnabled = true;
+                    Image4.IsEnabled = false;
+                    ChooseImage4.IsEnabled = false;
+                    Image5.IsEnabled = false;
+                    ChooseImage5.IsEnabled = false;
+                    Image6.IsEnabled = false;
+                    ChooseImage6.IsEnabled = false;
+                    Image7.IsEnabled = false;
+                    ChooseImage7.IsEnabled = false;
+                    Image8.IsEnabled = false;
+                    ChooseImage8.IsEnabled = false;
+                    break;
+            }
+        }
     }
 }

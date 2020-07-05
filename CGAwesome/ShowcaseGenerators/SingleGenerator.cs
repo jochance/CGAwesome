@@ -13,6 +13,7 @@ namespace CGAwesome.ShowcaseGenerators
         private System.Drawing.Bitmap ProcessedImage { get; }
         private Orientation Orientation { get; }
         private IExportMinecraftPackage PackageExporter { get; }
+
         public SingleGenerator(IExportMinecraftPackage exporter, System.Drawing.Bitmap processedImage, string packageName, string newVersion, string functionName, Orientation orientation) :
                 base(exporter, packageName, newVersion, functionName)
         {
